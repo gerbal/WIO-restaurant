@@ -1,0 +1,31 @@
+<html>
+<head>
+</head>
+<body>
+<h1 id="heading">A Restaurant</h1>
+<div class="navigation"><a href="/menu_menu.html">Return to the Menu of Menus</a></div>
+<h2 id="current_menu">Menu</h2>
+
+<ul class="menu_item">
+	<li><a href="menu_item1.html">First Menu Item</a>
+	<div class="flavor_text"></div>
+</li>
+
+<li class="menu_item">
+	<a href="menu_item2.html">Second Menu Item</a>
+	<div class="flavor_text"></div>
+</li>
+	
+<form class="create_item" action="/menu_menu/menu" method="PUT">
+	Create menu item
+	<input type="text" name="item_name" value="">
+	<input type="submit" />
+</form>
+<form class="delete_menu" action="/menu_menu/menu" method="DELETE">
+	Delete Menu
+	<input type="submit" />
+</form>
+
+
+</body>
+</html>
