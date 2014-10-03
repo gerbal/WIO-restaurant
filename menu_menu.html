@@ -5,13 +5,15 @@
 <h1 id="menu_menu">The Menu of Available Menus</h1>
 
 <ul>
-<li class="menu"><a href="menu.html">Menu 1 (Weekends)</a></li>
+<li class="menu"><a href="menu.html" rel="child">Menu 1 (Weekends)</a></li>
+<li class="menu"><a href="menu.html" rel="child">Menu 2 (Brunch)</a></li>
+<li class="menu"><a href="menu.html" rel="child">Menu 1 (Dinner)</a></li>
 </ul>
 
 
 <form class="create-menu" action="/menu_menu" method="POST">
 	Create New Menu
-	<input type="text" name="menu_title" />
+	<input class="name" type="text" name="menu_title" />
 	<input type="submit" />
 </form>
 

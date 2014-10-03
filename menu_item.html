@@ -15,16 +15,23 @@
 </li>
 </ul>
 
-<h2 class="menu"><a href="menu.html">Return to the Menu</a></h2>
+<h2 class="menu"><a href="menu.html" rel="parent">Return to the Menu</a></h2>
 
 <form method="PATCH" action="/menu_menu/menu/menu_item">
-	Edit Menu Item
-	<input type="text" name="ingredient" value=""/>
+	Add Ingredient
+	<input class="name"type="text" name="ingredient" value=""/>
+	<input class="description" type="text" name="description" value="" />
 	<input type="submit" />
 </form>
+<form method="patch" action"/menu_menu/menu/menu_item">
+	Remove Ingredient
+	<input class="name" type="text" name="del-ingredient" value="" />
+	<input type="submit" />
+</form>
+	
 <form method="DELETE" action="/menu_menu/menu/menu_item">
 	Delete Menu Item
-	<input type="submit" />
+	<input class="this" type="submit" />
 </form>
 </body>
 
