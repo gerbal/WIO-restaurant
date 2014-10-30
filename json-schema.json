@@ -1,0 +1,22 @@
+[
+  {
+	  menu: "title",
+	  description: "description",
+	  dishes:
+		  [
+		  {
+			  dish: "dish name",
+			  dish_description: "description",
+			  price: 3.0,
+			  ingredient_list: 
+				  [
+				  {
+					  ingredient: "name",
+					  ingredient_description: "description"
+				  },
+				  {
+					  ]
+				  }
+			  ]
+		  }
+	  ]
