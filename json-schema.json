@@ -1,26 +1,58 @@
-{menu-1:
+{'menu-1':
   {
-	  menu: "title",
-	  description: "description",
-	  dishes:
-	  {dish-1:
+	  'menu': "Dinner Menu",
+	  'description': "Our dinner Menu",
+	  'dishes':
+	  {
+		  'dish-1':
 		  {
-			  dish: "dish name",
-			  dish_description: "description",
-			  price: 3.0,
-			  ingredient_list: 
-			  {ingredient-1:
+			  'dish': "Salmon Fillet",
+			  'dish_description': "a delightfull salmon filet",
+			  'price': 3.0,
+			  'ingredient_list': 
+			  {'ingredient-1':
 				  {
-					  ingredient: "name",
-					  ingredient_description: "description"
+					  'ingredient': "salmon",
+					  'ingredient_description': "fresh wild-caught alaskan salmon"
 				  },
-			   ingredient-2:
+			   'ingredient-2':
 				  {
-					  
-				  }
-			  	
+					  'ingredient': 'garlic'
+				  },
+			   'ingredient-3':
+			   {
+			   	'ingredient': 'salt'
+			   },
+			  'ingredient-4': {
+			  	'ingredient':'olive oil'
+			  }	
 		 	 }
+	  },
+		'dish-2':
+		{
+			'dish':"Srimp n' grits",
+			'dish_descripton': "Grits, with shrimp",
+			'price': 11.0,
+			"ingredient_list":
+			{
+				'ingredient-1':
+				{
+					'ingredient':'shrimp',
+					'ingredient_description': "Sea bugs"
+				},
+				'ingredient-2':
+				{
+					'ingredient':'butter',
+					'ingredient_description':"solidified milk fat'
+				},
+				'ingredient-3':
+				{
+					'ingredient':'grits',
+					'ingredient_description':'Corn-grits'
+				}
+			}
+		}
 	  }
-	}},
-  menu-2:[]
+  },
+  'menu-2':[]
 }
