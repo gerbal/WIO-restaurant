@@ -1,0 +1,21 @@
+<form class="search" method="get">
+  <input name="q" type="text">
+  <input name="sort-by" type="hidden">
+  <input class="query" type="submit" value="search">
+</form>
+
+<form class="menu-editor" action="{{ url_for('helprequestlist') }}" method="post">
+  <label>name
+    <input name="from" type="text">
+  </label>
+  <br>
+  <label>price
+    <input name="title" type="text">
+  </label>
+  <br>
+  <label>description
+  	<textarea name="description"></textarea>
+  </label>
+  <br>   
+  <input class="create" type="submit" value="create new dish">
+</form>
