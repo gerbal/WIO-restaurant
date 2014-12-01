@@ -2,18 +2,21 @@
 <head>
 </head>
 <body>
-<h1 id="dish">Menu Item</h1>
-<p id="dish_description">Description</p>
-<ul class="ingredient_list"> Ingredient List
-<li class="ingredient">
-	Ingredient 1
-	<p class="ingredient_description">Description</p>
+<div vocab="http://www.bbc.co.uk/ontologies/fo" typeof="recipe">
+<h1 id="dish" property="name">Menu Item</h1>
+<p id="dish_description" property="description">Description</p>
+<ul class="ingredient_list" property="ingredients" typeof="IngredientList"> Ingredient List
+<li class="ingredient" property="ingredients" typeof="Ingredient">
+<span property="name">Ingredient 1</span>
+	<p class="ingredient_description" property='Description' >Description</p>
 </li>
-<li class="ingrdeient">
+<li class="Ingredient" property="ingredients" typeof="Ingredient">
 	Ingredient 2
 	<p class="ingredient_description">Description</p>	
 </li>
 </ul>
+</div>
+
 
 <h2 class="menu"><a href="menu.html" rel="parent">Return to the Menu</a></h2>
 
