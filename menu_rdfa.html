@@ -1,0 +1,39 @@
+<html>
+<head>
+</head>
+<body prefix="bbc: http://purl.org/ontology/fo/ schema: https://schema.org/">
+<h1 id="heading">A Restaurant</h1>
+<div class="navigation"><a href="/list_of_menus.html" rel="parent">Return to the Menu of Menus</a></div>
+<h2>Menu</h2>
+
+  <ul property="bbc:Menu">
+    <li typeof="bbc:Recipe">
+      <a resource="dish.html" rel="child"><span property="schema:name">First Menu Item</span></a>
+	    <div property="schema:description">Description One</div>
+    </li>
+
+    <li typeof="bbc:Recipe">
+      <a resource="dish.html" rel="child"><span property="schema:name">Second Menu Item</span></a>
+	    <div property="schema:description">Description Two</div>
+    </li>
+    
+    <li typeof="bbc:Recipe">
+      <a resource="dish.html" rel="child"><span property="schema:name">Third Menu Item</span></a>
+	    <div property="schema:description">Description Three</div>
+    </li>
+  </ul>	
+  
+<form class="create_item" action="/list_of_menus/menu" method="PUT">
+	Create menu item
+	<input class="name" type="text" name="item_name" value="">
+	<input class="description" type="text" name="dish_description" value="" />
+	<input type="submit" />
+</form>
+<form class="delete_menu" action="/list_of_menus/menu" method="DELETE">
+	Delete Menu
+	<input class="this" type="submit" />
+</form>
+
+
+</body>
+</html>
