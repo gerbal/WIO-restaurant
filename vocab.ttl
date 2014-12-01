@@ -1,0 +1,64 @@
+@base <https://rawgit.com/sils-webinfo/helpdesk/master/vocab.ttl#> .
+@bbc <http://purl.org/ontology/fo/> .
+
+<Collection>
+  a rdf:Class ;
+  rdfs:label "List of Menus"@en ;
+  rdfs:isDefinedBy <http://purl.org/ontology/fo/Collection> .
+
+<Menu> 
+  a rdf:Class ;
+  rdfs:label "Menu"@en ;
+  rdfs:subClassOf bbc:Collection ;
+  rdfs:isDefinedBy <http://purl.org/ontology/fo/Menu> .
+  
+<Recipe> 
+  a rdf:Class ;
+  rdfs:label "Recipe"@en ;
+  rdfs:isDefinedBy <http://purl.org/ontology/fo/Recipe> . 
+
+<IngredientList> 
+  a rdf:Class ;
+  rdfs:label "Ingredient List"@en ;
+  rdfs:isDefinedBy <http://purl.org/ontology/fo/IngredientList> .
+
+<Ingredient> 
+  a rdf:Class ;
+  rdfs:label "Ingredient"@en ;
+  rdfs:isDefinedBy <http://purl.org/ontology/fo/Ingredient> .
+
+<dessert> 
+  a rdf:Property ;
+  rdfs:label "dessert"@en ;
+  rdfs:domain #Menu ;
+  rdfs:range #Recipe ;
+  rdfs:isDefinedBy <http://purl.org/ontology/fo/dessert> . 
+  
+<ingredients> 
+  a rdf:Property ;
+  rdfs:label "has ingredients"@en ;
+  rdfs:domain #Recipe ;
+  rdfs:range #IngredientList ;
+  rdfs:isDefinedBy <http://purl.org/ontology/fo/ingredients> .
+    
+<main_course> 
+  a rdf:Property ;
+  rdfs:label "main course"@en ;
+  rdfs:domain #Menu ;
+  rdfs:range #Recipe ;
+  rdfs:isDefinedBy <http://purl.org/ontology/fo/main_course> .
+  
+<side_dish> 
+  a rdf:Property ;
+  rdfs:label "side dish"@en ;
+  rdfs:domain #Menu ;
+  rdfs:range #Recipe ;
+  rdfs:isDefinedBy <http://purl.org/ontology/fo/side_dish> . 
+  
+<starter> 
+  a rdf:Property ;
+  rdfs:label "starter"@en ;
+  rdfs:domain #Menu ;
+  rdfs:range #Recipe ;
+  rdfs:isDefinedBy <http://purl.org/ontology/fo/starter> . 
+
