@@ -38,11 +38,27 @@ def render_helprequest_as_html(helprequest):
         helprequest=helprequest,
         priorities=reversed(list(enumerate(PRIORITIES))))
 
+def filter_dict_list(dic):
+    keys = dic.keys()
+    keylist = lambda x: dic[x]
+    return_list = map(keylist, keys)
+    return return_list
+
+
 def render_menu_list_as_html(menus):
     return render_template(
         'menu-list.html',
-        menus=menus)
+        menus= filter_dict_list(menus))
 
+def render_menu_as_html(menu):
+    return render_template(
+        'menu.html',
+        menu= filter_dict_list(menu))
+
+def render_dish_as_html(dish):
+    return render_template(
+        'dishes.html',
+        dish= filter_dict_list(dish))
 
 def nonempty_string(x):
     s = str(x)
@@ -98,11 +114,11 @@ class helprequest(Resource):
             render_helprequest_as_html(helprequest), 200)
 
 class getMenu(Resource):
-    def get(self, helprequest_id):
-        error_if_helprequest_not_found(helprequest_id)
+    def get(self, menu_id):
+        #error_if_helprequest_not_found(helprequest_id)
         return make_response(
-            render_helprequest_as_html(
-                data["helprequests"][helprequest_id]), 200)
+            render_menu_as_html(
+                data[menu_id]), 200)
 
     def patch(self, helprequest_id):
         error_if_helprequest_not_found(helprequest_id)
@@ -140,7 +156,6 @@ class HelpRequestList(Resource):
 
 class menuList(Resource):
     def get(self):
-        query = query_parser.parse_args()
         return make_response(
             render_menu_list_as_html(
                 #filter_and_sort_helprequests(
@@ -160,6 +175,11 @@ class HelpRequestListAsJSON(Resource):
     def get(self):
         return data
 
+class getDish(Resource):
+    def get(self, menu_id, dish_id):
+        return make_response(
+            render_dish_as_html(data[menu_id]['dishes'][dish_id])
+                , 200)
 #
 # assign URL paths to our resources
 #
@@ -168,7 +188,7 @@ api = Api(app)
 api.add_resource(menuList, '/list_of_menus')
 #api.add_resource(HelpRequestListAsJSON, '/requests.json')
 api.add_resource(getMenu, '/menu/<string:menu_id>')
-#api.add_resource(getDish, '/dish/<string:dish_id>')
+api.add_resource(getDish, '/dish/<string:menu_id>/<string:dish_id>')
 #api.add_resource(HelpRequestAsJSON, '/request/<string:helprequest_id>.json')
 
 # start the se
