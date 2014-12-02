@@ -1,25 +1,30 @@
 <html>
 <head>
 </head>
-<body prefix="bbc: http://purl.org/ontology/fo/ schema: https://schema.org/" typeof="bbc:Recipe">
+<body prefix="bbc: http://purl.org/ontology/fo/ schema: https://schema.org/" typeof="bbc:Menu">
 <h1 id="heading">A Restaurant</h1>
 <div class="navigation"><a href="/list_of_menus.html" rel="parent">Return to the Menu of Menus</a></div>
 <h2>Menu</h2>
 
-  <ul property="bbc:Menu">
-    <li typeof="bbc:Recipe">
-      <span property="schema:name"> <a resource="dish.html" rel="child">Second Menu Item</a></span>
-	    <div property="schema:description">Description One</div>
-    </li>
-
-    <li typeof="bbc:Recipe">
-     <span property="schema:name"> <a resource="dish.html" rel="child">Second Menu Item</a></span>
-	    <div property="schema:description">Description Two</div>
+  <ul>
+    <li typeof="bbc:Recipe" property="bbc:starter">
+      <span property="schema:name"> <a resource="dish.html" rel="child">Calamari</a></span>
+	    <div property="schema:description">Breaded and fried calamari.</div>
     </li>
     
-    <li typeof="bbc:Recipe">
-      <span property="schema:name"> <a resource="dish.html" rel="child">Second Menu Item</a></span>
-	    <div property="schema:description">Description Three</div>
+    <li typeof="bbc:Recipe" property="bbc:main_course">
+      <span property="schema:name"> <a resource="dish.html" rel="child">Spaghetti and Meatballs</a></span>
+	    <div property="schema:description">Fresh whole wheat spaghetti with local grassfed meatballs.</div>
+    </li>
+
+    <li typeof="bbc:Recipe" property="bbc:side_dish">
+     <span property="schema:name"> <a resource="dish.html" rel="child">Roasted Brussel Sprouts</a></span>
+	    <div property="schema:description">Blank Farm Brussels sprouts lightly coated with extra virgin olive oil and roasted.</div>
+    </li>
+    
+    <li typeof="bbc:Recipe" property="bbc:dessert">
+      <span property="schema:name"> <a resource="dish.html" rel="child">Apple Crostada</a></span>
+	    <div property="schema:description">Homemade apple crostada drizzled with caramel sauce and topped with vanilla ice cream.</div>
     </li>
   </ul>	
   
