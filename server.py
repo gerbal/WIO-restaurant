@@ -10,7 +10,7 @@ from datetime import datetime
 PRIORITIES = ( 'closed', 'low', 'normal', 'high' )
 
 # load help requests data from disk
-with open('data.jsonld') as data:
+with open('data.json') as data:
     data = json.load(data)
 
 #
@@ -38,11 +38,11 @@ def render_helprequest_as_html(helprequest):
         helprequest=helprequest,
         priorities=reversed(list(enumerate(PRIORITIES))))
 
-def render_helprequest_list_as_html(helprequests):
+def render_menu_list_as_html(menus):
     return render_template(
-        'helprequests+microdata+rdfa.html',
-        helprequests=helprequests,
-        priorities=PRIORITIES)
+        'menu-list.html',
+        menus=menus)
+
 
 def nonempty_string(x):
     s = str(x)
@@ -80,7 +80,7 @@ query_parser.add_argument(
 #
 # define our (kinds of) resources
 #
-class helprequest(resource):
+class helprequest(Resource):
     def get(self, helprequest_id):
         error_if_helprequest_not_found(helprequest_id)
         return make_response(
@@ -97,7 +97,7 @@ class helprequest(resource):
         return make_response(
             render_helprequest_as_html(helprequest), 200)
 
-class getMenu(resource):
+class getMenu(Resource):
     def get(self, helprequest_id):
         error_if_helprequest_not_found(helprequest_id)
         return make_response(
@@ -142,9 +142,10 @@ class menuList(Resource):
     def get(self):
         query = query_parser.parse_args()
         return make_response(
-            render_helprequest_list_as_html(
-                filter_and_sort_helprequests(
-                    q=query['q'], sort_by=query['sort-by'])), 200)
+            render_menu_list_as_html(
+                #filter_and_sort_helprequests(
+                #q=query['q'], sort_by=query['sort-by'])),
+                   data),  200)
 
     def post(self):
         helprequest = new_helprequest_parser.parse_args()
@@ -164,19 +165,15 @@ class HelpRequestListAsJSON(Resource):
 #
 app = Flask(__name__)
 api = Api(app)
-api.add_resource(MenuList, '/list_of_menus')
+api.add_resource(menuList, '/list_of_menus')
 #api.add_resource(HelpRequestListAsJSON, '/requests.json')
 api.add_resource(getMenu, '/menu/<string:menu_id>')
-api.add_resource(getDish, '/dish/<string:dish_id>'
+#api.add_resource(getDish, '/dish/<string:dish_id>')
 #api.add_resource(HelpRequestAsJSON, '/request/<string:helprequest_id>.json')
 
-# start the server
+# start the se
 if __name__ == '__main__':
-
-
-
-
-app.run(host='0.0.0.0', port=5555)
+    app.run(debug=True, host='0.0.0.0', port=5555)
 
 
 
