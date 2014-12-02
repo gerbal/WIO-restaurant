@@ -2,17 +2,17 @@
 <head>
 </head>
 <body>
-<div vocab="http://www.bbc.co.uk/ontologies/fo" typeof="recipe">
-<h1 id="dish" property="name">Menu Item</h1>
-<p id="dish_description" property="description">Description</p>
-<ul class="ingredient_list" property="ingredients" typeof="IngredientList"> Ingredient List
-<li class="ingredient" property="ingredients" typeof="Ingredient">
-<span property="name">Ingredient 1</span>
-	<p class="ingredient_description" property='Description' >Description</p>
+<div prefix="bbc: http://purl.org/ontology/fo/ schema: https://schema.org/" typeof="bbc:Recipe">
+<h1 id="dish" property="schema:name">Menu Item</h1>
+<p id="dish_description" property="schema:description">Description</p>
+<ul class="ingredient_list" property="bbc:ingredients" typeof="bbc:IngredientList"> Ingredient List
+<li class="ingredient" property="bbc:ingredients" typeof="bbc:Ingredient">
+<span property="schema:name">Ingredient 1</span>
+	<p class="ingredient_description" property="schema:description" >Description</p>
 </li>
-<li class="Ingredient" property="ingredients" typeof="Ingredient">
-	Ingredient 2
-	<p class="ingredient_description">Description</p>	
+<li class="Ingredient" property="bbc:ingredients" typeof="bbc:Ingredient">
+  <span property="schema:name">Ingredient 2</span>
+	<p class="ingredient_description" property="schema:description">Description</p>	
 </li>
 </ul>
 </div>
