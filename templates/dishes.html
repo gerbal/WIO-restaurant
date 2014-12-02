@@ -13,27 +13,22 @@ view data extracted from RDFa markup</a><br>
 
   <label>Ingredient<br>
     <ul>
-      {% for Ingredient in dish.IngredientList %}
+      {% for ingredient in dish.ingredient_list %}
       <li
-          property="bbc:Ingredient">
-        <p property="text">{{ Ingredient }}</p>
+          typeof="bbc:Ingredient">
+        <p property="schema:name">{{ ingredient }}</p>
+        <span property="schema:description" typeof="Comment">{{ ingredient["ingredient_description"] }}</span>
       </li>
       {% endfor %}
-    </ul>
-    <textarea name="Ingredient"></textarea>
   </label>
   <br>
   
   <label>description<br>
-    <ul>
-      {% for description in dish.description %}
       <li
           property="schema:description" typeof="Comment">
-        <p property="text">{{ description }}</p>
+        <p property="text">{{ dish.dish_description }}</p>
       </li>
-      {% endfor %}
     </ul>
-    <textarea name="description"></textarea>
   </label>
   <br>
   
