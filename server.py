@@ -10,7 +10,7 @@ from datetime import datetime
 PRIORITIES = ( 'closed', 'low', 'normal', 'high' )
 
 # load help requests data from disk
-with open('data.jsonld') as data:
+with open('data.json') as data:
     data = json.load(data)
 
 #
@@ -38,11 +38,27 @@ def render_helprequest_as_html(helprequest):
         helprequest=helprequest,
         priorities=reversed(list(enumerate(PRIORITIES))))
 
-def render_helprequest_list_as_html(helprequests):
+def filter_dict_list(dic):
+    keys = dic.keys()
+    keylist = lambda x: dic[x]
+    return_list = map(keylist, keys)
+    return return_list
+
+
+def render_menu_list_as_html(menus):
     return render_template(
-        'helprequests+microdata+rdfa.html',
-        helprequests=helprequests,
-        priorities=PRIORITIES)
+        'menu-list.html',
+        menus= filter_dict_list(menus))
+
+def render_menu_as_html(menu):
+    return render_template(
+        'menu.html',
+        menu= filter_dict_list(menu))
+
+def render_dish_as_html(dish):
+    return render_template(
+        'dishes.html',
+        dish= filter_dict_list(dish))
 
 def nonempty_string(x):
     s = str(x)
@@ -80,7 +96,7 @@ query_parser.add_argument(
 #
 # define our (kinds of) resources
 #
-class helprequest(resource):
+class helprequest(Resource):
     def get(self, helprequest_id):
         error_if_helprequest_not_found(helprequest_id)
         return make_response(
@@ -97,12 +113,12 @@ class helprequest(resource):
         return make_response(
             render_helprequest_as_html(helprequest), 200)
 
-class getMenu(resource):
-    def get(self, helprequest_id):
-        error_if_helprequest_not_found(helprequest_id)
+class getMenu(Resource):
+    def get(self, menu_id):
+        #error_if_helprequest_not_found(helprequest_id)
         return make_response(
-            render_helprequest_as_html(
-                data["helprequests"][helprequest_id]), 200)
+            render_menu_as_html(
+                data[menu_id]), 200)
 
     def patch(self, helprequest_id):
         error_if_helprequest_not_found(helprequest_id)
@@ -140,11 +156,11 @@ class HelpRequestList(Resource):
 
 class menuList(Resource):
     def get(self):
-        query = query_parser.parse_args()
         return make_response(
-            render_helprequest_list_as_html(
-                filter_and_sort_helprequests(
-                    q=query['q'], sort_by=query['sort-by'])), 200)
+            render_menu_list_as_html(
+                #filter_and_sort_helprequests(
+                #q=query['q'], sort_by=query['sort-by'])),
+                   data),  200)
 
     def post(self):
         helprequest = new_helprequest_parser.parse_args()
@@ -159,24 +175,25 @@ class HelpRequestListAsJSON(Resource):
     def get(self):
         return data
 
+class getDish(Resource):
+    def get(self, menu_id, dish_id):
+        return make_response(
+            render_dish_as_html(data[menu_id]['dishes'][dish_id])
+                , 200)
 #
 # assign URL paths to our resources
 #
 app = Flask(__name__)
 api = Api(app)
-api.add_resource(MenuList, '/list_of_menus')
+api.add_resource(menuList, '/list_of_menus')
 #api.add_resource(HelpRequestListAsJSON, '/requests.json')
 api.add_resource(getMenu, '/menu/<string:menu_id>')
-api.add_resource(getDish, '/dish/<string:dish_id>'
+api.add_resource(getDish, '/dish/<string:menu_id>/<string:dish_id>')
 #api.add_resource(HelpRequestAsJSON, '/request/<string:helprequest_id>.json')
 
-# start the server
+# start the se
 if __name__ == '__main__':
-
-
-
-
-app.run(host='0.0.0.0', port=5555)
+    app.run(debug=True, host='0.0.0.0', port=5555)
 
 
 
