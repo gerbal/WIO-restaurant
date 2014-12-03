@@ -58,7 +58,7 @@ def render_menu_as_html(menu):
 def render_dish_as_html(dish):
     return render_template(
         'dishes.html',
-        dish= filter_dict_list(dish))
+        dish=dish)# filter_dict_list(dish))
 
 def nonempty_string(x):
     s = str(x)

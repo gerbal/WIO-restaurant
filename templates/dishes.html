@@ -16,10 +16,10 @@ view data extracted from RDFa markup</a><br>
       {% for ingredient in dish.ingredient_list %}
       <li
           typeof="bbc:Ingredient">
-        <p property="schema:name">{{ ingredient }}</p>
-        <span property="schema:description" typeof="Comment">{{ ingredient["ingredient_description"] }}</span>
+        <p property="schema:name">{{ dish.ingredient_list[ingredient]['ingredient'] }}</p>
+        <span property="schema:description" typeof="Comment">{{ dish.ingredient_list[ingredient]['ingredient_description'] }}</span>
       </li>
-      {% endfor %}
+	      {% endfor %}
   </label>
   <br>
   
