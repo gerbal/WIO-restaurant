@@ -19,9 +19,9 @@ with open('data.json') as data:
 def generate_id(size=6, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
-def error_if_helprequest_not_found(helprequest_id):
-    if helprequest_id not in data["helprequests"]:
-        message = "Help request {} doesn't exist".format(helprequest_id)
+def error_if_menu_not_found(menu_id):
+    if menu_id not in data.keys():
+        message = "Menu {} doesn't exist".format(menu_id)
         abort(404, message=message)
 
 def filter_and_sort_helprequests(q='', sort_by='time'):
@@ -47,7 +47,7 @@ def filter_dict_list(dic):
 
 def render_menu_list_as_html(menus):
     return render_template(
-        'menu-list.html',
+        'menus_list.html',
         menus= filter_dict_list(menus))
 
 def render_menu_as_html(menu):
@@ -96,22 +96,22 @@ query_parser.add_argument(
 #
 # define our (kinds of) resources
 #
-class helprequest(Resource):
-    def get(self, helprequest_id):
-        error_if_helprequest_not_found(helprequest_id)
-        return make_response(
-            render_helprequest_as_html(
-                data["helprequests"][helprequest_id]), 200)
-
-    def patch(self, helprequest_id):
-        error_if_helprequest_not_found(helprequest_id)
-        helprequest = data["helprequests"][helprequest_id]
-        update = update_helprequest_parser.parse_args()
-        helprequest['priority'] = update['priority']
-        if len(update['comment'].strip()) > 0:
-            helprequest.setdefault('comments', []).append(update['comment'])
-        return make_response(
-            render_helprequest_as_html(helprequest), 200)
+# class helprequest(Resource):
+#     def get(self, helprequest_id):
+#         error_if_helprequest_not_found(helprequest_id)
+#         return make_response(
+#             render_helprequest_as_html(
+#                 data["helprequests"][helprequest_id]), 200)
+#
+#     def patch(self, helprequest_id):
+#         error_if_helprequest_not_found(helprequest_id)
+#         helprequest = data["helprequests"][helprequest_id]
+#         update = update_helprequest_parser.parse_args()
+#         helprequest['priority'] = update['priority']
+#         if len(update['comment'].strip()) > 0:
+#             helprequest.setdefault('comments', []).append(update['comment'])
+#         return make_response(
+#             render_helprequest_as_html(helprequest), 200)
 
 class getMenu(Resource):
     def get(self, menu_id):
@@ -120,9 +120,9 @@ class getMenu(Resource):
             render_menu_as_html(
                 data[menu_id]), 200)
 
-    def patch(self, helprequest_id):
-        error_if_helprequest_not_found(helprequest_id)
-        helprequest = data["helprequests"][helprequest_id]
+    def patch(self, menu_id):
+        error_if_menu_not_found(menu_id)
+        helprequest = data["helprequests"][menu_id]
         update = update_helprequest_parser.parse_args()
         helprequest['priority'] = update['priority']
         if len(update['comment'].strip()) > 0:
@@ -130,29 +130,29 @@ class getMenu(Resource):
         return make_response(
             render_helprequest_as_html(helprequest), 200)
 
-class HelpRequestAsJSON(Resource):
-    def get(self, helprequest_id):
-        error_if_helprequest_not_found(helprequest_id)
-        helprequest = data["helprequests"][helprequest_id]
-        helprequest["@context"] = data["@context"]
-        return helprequest
-
-class HelpRequestList(Resource):
-    def get(self):
-        query = query_parser.parse_args()
-        return make_response(
-            render_helprequest_list_as_html(
-                filter_and_sort_helprequests(
-                    q=query['q'], sort_by=query['sort-by'])), 200)
-
-    def post(self):
-        helprequest = new_helprequest_parser.parse_args()
-        helprequest['time'] = datetime.isoformat(datetime.now())
-        helprequest['priority'] = PRIORITIES.index('normal')
-        helprequests[generate_id()] = helprequest
-        return make_response(
-            render_helprequest_list_as_html(
-                filter_and_sort_helprequests()), 201)
+# class HelpRequestAsJSON(Resource):
+#     def get(self, helprequest_id):
+#         error_if_helprequest_not_found(helprequest_id)
+#         helprequest = data["helprequests"][helprequest_id]
+#         helprequest["@context"] = data["@context"]
+#         return helprequest
+#
+# class HelpRequestList(Resource):
+#     def get(self):
+#         query = query_parser.parse_args()
+#         return make_response(
+#             render_helprequest_list_as_html(
+#                 filter_and_sort_helprequests(
+#                     q=query['q'], sort_by=query['sort-by'])), 200)
+#
+#     def post(self):
+#         helprequest = new_helprequest_parser.parse_args()
+#         helprequest['time'] = datetime.isoformat(datetime.now())
+#         helprequest['priority'] = PRIORITIES.index('normal')
+#         helprequests[generate_id()] = helprequest
+#         return make_response(
+#             render_helprequest_list_as_html(
+#                 filter_and_sort_helprequests()), 201)
 
 class menuList(Resource):
     def get(self):
@@ -171,15 +171,24 @@ class menuList(Resource):
             render_helprequest_list_as_html(
                 filter_and_sort_helprequests()), 201)
 
-class HelpRequestListAsJSON(Resource):
-    def get(self):
-        return data
+# class HelpRequestListAsJSON(Resource):
+#     def get(self):
+#         return data
 
 class getDish(Resource):
     def get(self, menu_id, dish_id):
         return make_response(
             render_dish_as_html(data[menu_id]['dishes'][dish_id])
                 , 200)
+    # def patch(self, menu_id, dish_id):
+    #     error_if_dish_not_found(menu_id, dish_id)
+    #     dish = data[menu_id]['dishes'][dish_id
+    #     update = update_helprequest_parser.parse_args()
+    #     helprequest['priority'] = update['priority']
+    #     if len(update['comment'].strip()) > 0:
+    #         helprequest.setdefault('comments', []).append(update['comment'])
+    #     return make_response(
+    #         render_helprequest_as_html(helprequest), 200)
 #
 # assign URL paths to our resources
 #
