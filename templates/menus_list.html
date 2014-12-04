@@ -3,15 +3,15 @@
       typeof="bbc:Collection" >
 
 <a href="http://www.w3.org/2012/pyRdfa/extract?uri=referer">
-view data extracted from RDFa markup</a><br>
+view data extracted from RDFa markup</a>
 
 
 <h1 id="list_of_menus">The Menu of Available Menus</h1>
 
 <ul>
     {%  for item in menus %}
-    <li class="menu" resource="menu1.html" typeof="bbc:Menu"><span property="schema:name"><a href="menu.html" rel="child">  Menu 1 (Weekends)</a></span></li>
-    <%endfor%}
+    <li class="menu" resource="{{ url_for("getmenu", menu_id=item.menu,  _external=True) }}" typeof="bbc:Menu"><span property="schema:name"><a href="{{ url_for("getmenu", menu_id=item.menu) }}" rel="child">  {{ item.menu }}</a></span></li>
+    {%endfor%}
 </ul>
   
 <form class="create-menu" action="/list_of_menus" method="POST">
