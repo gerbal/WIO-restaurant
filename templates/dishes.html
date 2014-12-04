@@ -5,33 +5,33 @@
 <a href="http://www.w3.org/2012/pyRdfa/extract?uri=referer">
 view data extracted from RDFa markup</a><br>
 
-<h1 class="title" property="schema:name">{{ dish.dish }}</h1>
+<h1 class="title" property="dcterms:title">{{ dish.dish }}</h1>
 
-<p class="description" property="schema:description">{{ dish.dish_description }}</p>
+<p class="description" property="dcterms:description">{{ dish.dish_description }}</p>
   
-<form class="dish-editor" method="patch">
+
 
   <label>Ingredient<br>
     <ul>
       {% for ingredient in dish.ingredient_list %}
-      <li
-          typeof="bbc:Ingredient">
-        <p property="schema:name">{{ dish.ingredient_list[ingredient]['ingredient'] }}</p>
-        <span property="schema:description" >{{ dish.ingredient_list[ingredient]['ingredient_description'] }}</span>
+      <li property="bbc:ingredients"
+           typeof="bbc:Ingredient">
+        <p property="dcterms:title bbc:food">{{ dish.ingredient_list[ingredient]['ingredient'] }}</p>
+        <span property="dcterms:description" >{{ dish.ingredient_list[ingredient]['ingredient_description'] }}</span>
       </li>
 	      {% endfor %}
   </label>
   <br>
   
-  <label>description<br>
-      <li
-          property="schema:description" typeof="Comment">
-        <p property="text">{{ dish.dish_description }}</p>
-      </li>
-    </ul>
-  </label>
+{#  <label>description<br>#}
+{#      <li#}
+{#          property="dcterms:description" typeof="Comment">#}
+{#        <p property="text">{{ dish.dish_description }}</p>#}
+{#      </li>#}
+{#    </ul>#}
+{#  </label>#}
   <br>
-  
+  <form class="dish-editor" method="patch">
   <input class="update" type="submit" value="update help request">
   <script>
     var form = document.querySelector('form.dish-editor');
