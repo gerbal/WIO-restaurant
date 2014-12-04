@@ -1,13 +1,13 @@
 <html>
 <body prefix="schema: http://schema.org/ bbc: http://purl.org/ontology/fo/"
-      typeof="dish:Recipe" >
+      typeof="bbc:Recipe" >
 
 <a href="http://www.w3.org/2012/pyRdfa/extract?uri=referer">
 view data extracted from RDFa markup</a><br>
 
-<h1 class="title" property="schema:name">{{ dish.title }}</h1> 
+<h1 class="title" property="schema:name">{{ dish.dish }}</h1>
 
-<p class="description" property="schema:description">{{ dish.description }}</p>
+<p class="description" property="schema:description">{{ dish.dish_description }}</p>
   
 <form class="dish-editor" method="patch">
 
@@ -17,7 +17,7 @@ view data extracted from RDFa markup</a><br>
       <li
           typeof="bbc:Ingredient">
         <p property="schema:name">{{ dish.ingredient_list[ingredient]['ingredient'] }}</p>
-        <span property="schema:description" typeof="Comment">{{ dish.ingredient_list[ingredient]['ingredient_description'] }}</span>
+        <span property="schema:description" >{{ dish.ingredient_list[ingredient]['ingredient_description'] }}</span>
       </li>
 	      {% endfor %}
   </label>
