@@ -53,7 +53,7 @@ def render_menu_list_as_html(menus):
 def render_menu_as_html(menu):
     return render_template(
         'menu.html',
-        menu= filter_dict_list(menu))
+        menu= menu)
 
 def render_dish_as_html(dish):
     return render_template(

@@ -5,16 +5,21 @@
 <a href="http://www.w3.org/2012/pyRdfa/extract?uri=referer">
 view data extracted from RDFa markup</a><br>
 
-<h1 class="title" property="schema:name">{{ menu.title }}</h1> 
+
+<h1 id="list_of_menus">The Menu of Available Menus</h1>
+
+<ul>
+    {%  for item in menus %}
+    <li class="menu" resource="menu1.html" typeof="bbc:Menu"><span property="schema:name"><a href="menu.html" rel="child">  Menu 1 (Weekends)</a></span></li>
+    <%endfor%}
+</ul>
   
-<form class="menu-list-editor" action="{{ url_for('menus_list') }}" method="post">
-  <label>title
-    <input name="title" type="text">
-  </label>
-  <br> 
-  <input class="create" type="submit" value="create new menu">
+<form class="create-menu" action="/list_of_menus" method="POST">
+	Create New Menu
+	<input class="name" type="text" name="menu_title" />
+	<input type="submit" />
 </form>
-  
-</form>
+
+
 </body>
 </html>

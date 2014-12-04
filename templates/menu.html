@@ -3,41 +3,20 @@
 </head>
 <body prefix="bbc: http://purl.org/ontology/fo/ schema: https://schema.org/" typeof="bbc:Recipe">
 <h1 id="heading">A Restaurant</h1>
-<div class="navigation"><a href="/list_of_menus.html" rel="parent">Return to the Menu of Menus</a></div>
-<h2>Menu</h2>
-<label>Recipe
-    <br>
+<div class="navigation"><a href="{{ url_for("menulist") }}" rel="parent">Return to the List of Menus</a></div>
+
+<h2>{{ menu.menu }}</h2>
+
     <ul>
-        {% for Recipe in menu.Recipe %}
+        {% for dish in menu.dishes %}
             <li typeof="bbc:Recipe">
-                <p property="text">{{ Recipe }}</p>
+                <span property="schema:name"> <a href="{{ url_for('getdish', menu_id=menu.menu, dish_id=dish ) }}" resource="{{ url_for('getdish', menu_id=menu.menu, dish_id=dish, _external=True) }}" rel="child">{{ menu.dishes[dish]["dish"] }}</a></span>
+                <div property="schema:description">{{ menu.dishes[dish]["dish_description"] }}</div>
             </li>
         {% endfor %}
-</label>
+
 </ul>
-<label>description
-    <br>
-    <ul>
-        {% for description in menu.description %}
-            <li typeof="schema:description">
-                <p property="text">{{ description }}</p>
-            </li>
-        {% endfor %}
-</label>
-</ul>
-<br>
-<span property="schema:name"> <a resource="dish.html" rel="child">Second Menu Item</a></span>
-<div property="schema:description">Description One</div>
-</li>
-<li typeof="bbc:Recipe">
-    <span property="schema:name"> <a resource="dish.html" rel="child">Second Menu Item</a></span>
-    <div property="schema:description">Description Two</div>
-</li>
-<li typeof="bbc:Recipe">
-    <span property="schema:name"> <a resource="dish.html" rel="child">Second Menu Item</a></span>
-    <div property="schema:description">Description Three</div>
-</li>
-</ul>
+
 <form class="create_item" action="/list_of_menus/menu" method="PUT">
     Create menu item
     <input class="name" type="text" name="item_name" value="">
