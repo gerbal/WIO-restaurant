@@ -6,6 +6,20 @@
 view data extracted from RDFa markup</a><br>
 
 <h1 class="title" property="schema:name">{{ menu.title }}</h1> 
+
+<ol>
+  {% for menu_id, menu in menus_list %}
+  <li 
+      property="menu:menus_list"
+      typeof="bbc:Menu">
+    <div>
+    <a href="{{ url_for('menu', menu_id=menu_id) }}">
+      <span property="schema:name">{{ menu.title }}</span>
+    </a>
+    </div>
+  </li>
+  {% endfor %}
+</ol>
   
 <form class="menu-list-editor" action="{{ url_for('menus_list') }}" method="post">
   <label>title
