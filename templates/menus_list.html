@@ -10,7 +10,7 @@ view data extracted from RDFa markup</a>
 
 <ul>
     {%  for item in menus %}
-    <li class="menu" resource="{{ url_for("getmenu", menu_id=item.menu,  _external=True) }}" property="bbc:Menu" typeof="bbc:Menu"><span property="dcterms:title"><a href="{{ url_for("getmenu", menu_id=item.menu) }}" rel="child">  {{ item.menu }}</a></span></li>
+    <li class="menu" resource="{{ url_for("getmenu", menu_id=item.menu,  _external=True) }}" property="bbc:Menu" typeof="bbc:Menu"><span property="dcterms:title"><a href="{{ url_for("getmenu", menu_id=item.menu) }}" rel="child"> {{ item.menu }}</a></span></li>
     {%endfor%}
 </ul>
   

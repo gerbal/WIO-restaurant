@@ -57,7 +57,7 @@ def render_menu_as_html(menu):
 
 def render_dish_as_html(dish):
     return render_template(
-        'dishes.html',
+        'dish.html',
         dish=dish)# filter_dict_list(dish))
 
 def nonempty_string(x):
@@ -196,8 +196,8 @@ app = Flask(__name__)
 api = Api(app)
 api.add_resource(menuList, '/list_of_menus')
 #api.add_resource(HelpRequestListAsJSON, '/requests.json')
-api.add_resource(getMenu, '/menu/<string:menu_id>')
-api.add_resource(getDish, '/dish/<string:menu_id>/<string:dish_id>')
+api.add_resource(getMenu, '/menu/<string:menu_id>/')
+api.add_resource(getDish, '/menu/<string:menu_id>/<string:dish_id>')
 #api.add_resource(HelpRequestAsJSON, '/request/<string:helprequest_id>.json')
 
 # start the se
