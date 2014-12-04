@@ -1,0 +1,20 @@
+<html>
+<body prefix="schema: http://schema.org/ bbc: http://purl.org/ontology/fo/"
+      typeof="bbc:Collection" >
+
+<a href="http://www.w3.org/2012/pyRdfa/extract?uri=referer">
+view data extracted from RDFa markup</a><br>
+
+<h1 class="title" property="schema:name">{{ menu.title }}</h1> 
+  
+<form class="menu-list-editor" action="{{ url_for('menus_list') }}" method="post">
+  <label>title
+    <input name="title" type="text">
+  </label>
+  <br> 
+  <input class="create" type="submit" value="create new menu">
+</form>
+  
+</form>
+</body>
+</html>
