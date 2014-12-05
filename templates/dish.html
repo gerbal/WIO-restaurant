@@ -13,7 +13,7 @@ view data extracted from RDFa markup</a><br>
   
 
 
-  <label>Ingredient<br>
+ Ingredients:<br>
     <ul>
       {% for ingredient in dish.ingredient_list %}
       <li property="bbc:ingredients"
@@ -22,30 +22,61 @@ view data extracted from RDFa markup</a><br>
         <span property="dcterms:description" >{{ dish.ingredient_list[ingredient]['ingredient_description'] }}</span>
       </li>
 	      {% endfor %}
-  </label>
-  <br>
-  
-{#  <label>description<br>#}
-{#      <li#}
-{#          property="dcterms:description" typeof="Comment">#}
-{#        <p property="text">{{ dish.dish_description }}</p>#}
-{#      </li>#}
-{#    </ul>#}
-{#  </label>#}
-  <br>
-  <form class="dish-editor" method="patch">
-  <input class="update" type="submit" value="update help request">
-  <script>
-    var form = document.querySelector('form.dish-editor');
-    var button = document.querySelector('form.dish-editor input.update');
 
-    button.addEventListener('click', function (event) {
+  </ul>
+  
+
+  <form method="PATCH" class="add-ingredient">
+	Add Ingredient
+	<input class="name" type="text" name="ingredient" value="" />
+	<input class="description" type="text" name="description" value="" />
+	<input class="add" type="submit" value="Add an ingredient" />
+</form>
+<form method="patch" class="remove-ingredient">
+	Remove Ingredient
+	<input class="name" type="text" name="del-ingredient"  />
+	<input class="remove" type="submit" value=" Remove Ingredient"/>
+</form>
+
+<form method="DELETE" class="delete-dish">
+	Delete Menu Item
+	<input class="this" type="submit" />
+</form>
+
+  <script>
+    var addForm = document.querySelector('form.add-ingredient');
+    var addButton = document.querySelector('form.add-ingredient input.add');
+
+    addButton.addEventListener('click', function (event) {
       event.preventDefault();
       var request = new XMLHttpRequest();
       request.open('PATCH', window.location.pathname);
-      request.send(new FormData(form));
+      request.send(new FormData(addForm));
+        console.log(new FormData(addForm))
     }, false);
+
+    var remForm = document.querySelector('form.remove-ingredient');
+    var remButton = document.querySelector('form.remove-ingredient input.remove');
+
+    remButton.addEventListener('click', function (event) {
+      event.preventDefault();
+      var request = new XMLHttpRequest();
+      request.open('PATCH', window.location.pathname);
+      request.send(new FormData(remForm));
+{#        console.log(new FormData(remForm))#}
+    }, false);
+
+    var delForm = document.querySelector('form.delete-dish');
+    var delButton = document.querySelector('form.delete-dish input.this');
+
+    delButton.addEventListener('click', function (event) {
+      event.preventDefault();
+      var request = new XMLHttpRequest();
+      request.open('DELETE', window.location.pathname);
+      request.send(new FormData(delForm));
+{#        console.log(new FormData(remForm))#}
+    }, false);
+
   </script>
-</form>
 </body>
 </html>

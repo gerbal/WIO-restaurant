@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, make_response
+from flask import Flask, request, render_template, make_response, url_for, redirect
 from flask.ext.restful import Api, Resource, reqparse, abort
 
 import json
@@ -22,6 +22,14 @@ def generate_id(size=6, chars=string.ascii_lowercase + string.digits):
 def error_if_menu_not_found(menu_id):
     if menu_id not in data.keys():
         message = "Menu {} doesn't exist".format(menu_id)
+        abort(404, message=message)
+
+def error_if_dish_not_found(menu_id, dish_id):
+    if menu_id not in data.keys():
+        message = "Menu {} doesn't exist".format(menu_id)
+        abort(404, message=message)
+    elif dish_id not in data[menu_id]["dishes"]:
+        message = "Dish {} doesn't exist".format(dish_id)
         abort(404, message=message)
 
 def filter_and_sort_helprequests(q='', sort_by='time'):
@@ -48,7 +56,7 @@ def filter_dict_list(dic):
 def render_menu_list_as_html(menus):
     return render_template(
         'menus_list.html',
-        menus= filter_dict_list(menus))
+        menus= menus)
 
 def render_menu_as_html(menu):
     return render_template(
@@ -69,20 +77,29 @@ def nonempty_string(x):
 #
 # specify the data we need to create a new help request
 #
-new_helprequest_parser = reqparse.RequestParser()
-for arg in ['from', 'title', 'description']:
-    new_helprequest_parser.add_argument(
+
+new_menu_parser = reqparse.RequestParser()
+for arg in ['menu_title','menu_description']:
+    new_menu_parser.add_argument(
+        arg, type=nonempty_string, required=True,
+        help="'{}' is a required value".format(arg))
+
+new_dish_parser = reqparse.RequestParser()
+for arg in ['item_name','dish_description']:
+    new_dish_parser.add_argument(
         arg, type=nonempty_string, required=True,
         help="'{}' is a required value".format(arg))
 
 #
 # specify the data we need to update an existing help request
 #
-update_helprequest_parser = reqparse.RequestParser()
-update_helprequest_parser.add_argument(
-    'priority', type=int, default=PRIORITIES.index('normal'))
-update_helprequest_parser.add_argument(
-    'comment', type=str, default='')
+update_dish_parser = reqparse.RequestParser()
+update_dish_parser.add_argument(
+    'ingredient', type=str, default='')
+update_dish_parser.add_argument(
+    'description', type=str, default='')
+update_dish_parser.add_argument(
+    'del-ingredient', type=str, default='')
 
 #
 # specify the parameters for filtering and sorting help requests
@@ -96,80 +113,49 @@ query_parser.add_argument(
 #
 # define our (kinds of) resources
 #
-# class helprequest(Resource):
-#     def get(self, helprequest_id):
-#         error_if_helprequest_not_found(helprequest_id)
-#         return make_response(
-#             render_helprequest_as_html(
-#                 data["helprequests"][helprequest_id]), 200)
-#
-#     def patch(self, helprequest_id):
-#         error_if_helprequest_not_found(helprequest_id)
-#         helprequest = data["helprequests"][helprequest_id]
-#         update = update_helprequest_parser.parse_args()
-#         helprequest['priority'] = update['priority']
-#         if len(update['comment'].strip()) > 0:
-#             helprequest.setdefault('comments', []).append(update['comment'])
-#         return make_response(
-#             render_helprequest_as_html(helprequest), 200)
 
 class getMenu(Resource):
     def get(self, menu_id):
+        error_if_menu_not_found(menu_id)
         #error_if_helprequest_not_found(helprequest_id)
         return make_response(
             render_menu_as_html(
                 data[menu_id]), 200)
 
-    def patch(self, menu_id):
+    def put(self, menu_id):
         error_if_menu_not_found(menu_id)
-        helprequest = data["helprequests"][menu_id]
-        update = update_helprequest_parser.parse_args()
-        helprequest['priority'] = update['priority']
-        if len(update['comment'].strip()) > 0:
-            helprequest.setdefault('comments', []).append(update['comment'])
-        return make_response(
-            render_helprequest_as_html(helprequest), 200)
+        update = new_dish_parser.parse_args()
+        print update
+        new_dish = 'dish-'+generate_id()
+        data[menu_id]['dishes'][new_dish] = {"dish": update['item_name'],
+                                             'dish_description': update['dish_description'],
+                                             'ingredient_list': {}}
 
-# class HelpRequestAsJSON(Resource):
-#     def get(self, helprequest_id):
-#         error_if_helprequest_not_found(helprequest_id)
-#         helprequest = data["helprequests"][helprequest_id]
-#         helprequest["@context"] = data["@context"]
-#         return helprequest
-#
-# class HelpRequestList(Resource):
-#     def get(self):
-#         query = query_parser.parse_args()
-#         return make_response(
-#             render_helprequest_list_as_html(
-#                 filter_and_sort_helprequests(
-#                     q=query['q'], sort_by=query['sort-by'])), 200)
-#
-#     def post(self):
-#         helprequest = new_helprequest_parser.parse_args()
-#         helprequest['time'] = datetime.isoformat(datetime.now())
-#         helprequest['priority'] = PRIORITIES.index('normal')
-#         helprequests[generate_id()] = helprequest
-#         return make_response(
-#             render_helprequest_list_as_html(
-#                 filter_and_sort_helprequests()), 201)
+        menu = data[menu_id]
+        return make_response(
+            render_menu_as_html(menu), 200)
+    def delete(self, menu_id):
+        error_if_menu_not_found(menu_id)
+        menu = data[menu_id]
+        del data[menu_id]
+        return make_response(
+            render_dish_as_html(menu), 204)
+
 
 class menuList(Resource):
     def get(self):
         return make_response(
-            render_menu_list_as_html(
-                #filter_and_sort_helprequests(
-                #q=query['q'], sort_by=query['sort-by'])),
-                   data),  200)
+            render_menu_list_as_html(data),  200)
 
     def post(self):
-        helprequest = new_helprequest_parser.parse_args()
-        helprequest['time'] = datetime.isoformat(datetime.now())
-        helprequest['priority'] = PRIORITIES.index('normal')
-        helprequests[generate_id()] = helprequest
+        update = new_menu_parser.parse_args()
+        new_menu_id = 'menu-'+generate_id()
+        data[new_menu_id] = {
+            'menu': update['menu_title'],
+            'description': update['menu_description'],
+            'dishes':{}}
         return make_response(
-            render_helprequest_list_as_html(
-                filter_and_sort_helprequests()), 201)
+            render_menu_list_as_html(data), 201)
 
 # class HelpRequestListAsJSON(Resource):
 #     def get(self):
@@ -177,18 +163,38 @@ class menuList(Resource):
 
 class getDish(Resource):
     def get(self, menu_id, dish_id):
+        error_if_dish_not_found(menu_id, dish_id)
         return make_response(
             render_dish_as_html(data[menu_id]['dishes'][dish_id])
                 , 200)
-    # def patch(self, menu_id, dish_id):
-    #     error_if_dish_not_found(menu_id, dish_id)
-    #     dish = data[menu_id]['dishes'][dish_id
-    #     update = update_helprequest_parser.parse_args()
-    #     helprequest['priority'] = update['priority']
-    #     if len(update['comment'].strip()) > 0:
-    #         helprequest.setdefault('comments', []).append(update['comment'])
-    #     return make_response(
-    #         render_helprequest_as_html(helprequest), 200)
+    def patch(self, menu_id, dish_id):
+        error_if_dish_not_found(menu_id, dish_id)
+        update = update_dish_parser.parse_args()
+        # print update
+        if len(update['ingredient']) > 0:
+            new_ingredient = 'ingredient-'+generate_id()
+            data[menu_id]['dishes'][dish_id]['ingredient_list'][new_ingredient] = {
+                'ingredient_description': update['description'],
+                'ingredient': update['ingredient']}
+            # dish = data[menu_id]['dishes'][dish_id]
+        elif len(update['del-ingredient']) > 0:
+            # dish = data[menu_id]['dishes'][dish_id]
+            match = ""
+            for i in data[menu_id]['dishes'][dish_id]['ingredient_list']:
+                if data[menu_id]['dishes'][dish_id]['ingredient_list'][i]['ingredient'] == update['del-ingredient']:
+                    match = i
+            del data[menu_id]['dishes'][dish_id]['ingredient_list'][match]
+
+        dish = data[menu_id]['dishes'][dish_id]
+        print update
+        return make_response(
+            render_dish_as_html(dish), 200)
+    def delete(self, menu_id, dish_id):
+        error_if_dish_not_found(menu_id, dish_id)
+        dish = data[menu_id]['dishes'][dish_id]
+        del data[menu_id]['dishes'][dish_id]
+        return make_response(
+            render_dish_as_html(dish), 204)
 #
 # assign URL paths to our resources
 #

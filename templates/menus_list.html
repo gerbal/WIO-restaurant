@@ -10,13 +10,18 @@ view data extracted from RDFa markup</a>
 
 <ul>
     {%  for item in menus %}
-    <li class="menu" resource="{{ url_for("getmenu", menu_id=item.menu,  _external=True) }}" property="bbc:Menu" typeof="bbc:Menu"><span property="dcterms:title"><a href="{{ url_for("getmenu", menu_id=item.menu) }}" > {{ item.menu }}</a></span></li>
+
+    <li class="menu" resource="{{ url_for("getmenu", menu_id=menus[item].menu,  _external=True) }}" property="bbc:Menu" typeof="bbc:Menu">
+        <span property="dcterms:title"><a href="{{ url_for("getmenu", menu_id=item) }}" > {{ menus[item].menu }}</a></span>
+        <div property="dcterms:description">{{ menus[item].description }}</div>
+    </li>
     {%endfor%}
 </ul>
   
 <form class="create-menu" action="/list_of_menus" method="POST">
 	Create New Menu
 	<input class="name" type="text" name="menu_title" />
+    <input class="text" type="text" name="menu_description"/>
 	<input type="submit" />
 </form>
 
