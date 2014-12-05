@@ -58,10 +58,10 @@ def render_menu_list_as_html(menus):
         'menus_list.html',
         menus= menus)
 
-def render_menu_as_html(menu):
+def render_menu_as_html(menu, menu_id):
     return render_template(
         'menu.html',
-        menu= menu)
+        menu= menu, menu_id=menu_id)
 
 def render_dish_as_html(dish):
     return render_template(
@@ -120,7 +120,7 @@ class getMenu(Resource):
         #error_if_helprequest_not_found(helprequest_id)
         return make_response(
             render_menu_as_html(
-                data[menu_id]), 200)
+                data[menu_id], menu_id), 200)
 
     def put(self, menu_id):
         error_if_menu_not_found(menu_id)

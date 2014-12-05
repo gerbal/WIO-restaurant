@@ -13,8 +13,8 @@ view data extracted from RDFa markup</a>
 
 <ul>
         {% for dish in menu.dishes %}
-            <li property="bbc:side_dish" typeof="bbc:Recipe"  resource="{{ url_for('getdish', menu_id=menu.menu, dish_id=dish, _external=True) }}">
-                <span property="dcterms:title"> <a href="{{ url_for('getdish', menu_id=menu.menu, dish_id=dish ) }}" >{{ menu.dishes[dish]["dish"] }}</a></span>
+            <li property="bbc:side_dish" typeof="bbc:Recipe"  resource="{{ url_for('getdish', menu_id=menu_id, dish_id=dish, _external=True) }}">
+                <span property="dcterms:title"> <a href="{{ url_for('getdish', menu_id=menu_id, dish_id=dish ) }}" >{{ menu.dishes[dish]["dish"] }}</a></span>
                 <div property="dcterms:description">{{ menu.dishes[dish]["dish_description"] }}</div>
             </li>
         {% endfor %}
@@ -40,7 +40,8 @@ view data extracted from RDFa markup</a>
       var request = new XMLHttpRequest();
       request.open('PUT', window.location.pathname);
       request.send(new FormData(addForm));
-        console.log(new FormData(addForm))
+{#        console.log(new FormData(addForm))#}
+        location.reload();
     }, false);
 
     var delForm = document.querySelector('form.delete_menu');
@@ -51,6 +52,7 @@ view data extracted from RDFa markup</a>
       var request = new XMLHttpRequest();
       request.open('DELETE', window.location.pathname);
       request.send(new FormData(delForm));
+        location.reload();
 {#        console.log(new FormData(remForm))#}
     }, false);
 </script>
