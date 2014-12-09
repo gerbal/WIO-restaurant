@@ -40,11 +40,6 @@ def filter_and_sort_helprequests(q='', sort_by='time'):
     key_function = lambda x: x[1][sort_by]
     return sorted(filtered_helprequests, key=key_function, reverse=True)
 
-def render_helprequest_as_html(helprequest):
-    return render_template(
-        'helprequest+microdata+rdfa.html',
-        helprequest=helprequest,
-        priorities=reversed(list(enumerate(PRIORITIES))))
 
 def filter_dict_list(dic):
     keys = dic.keys()
@@ -133,13 +128,13 @@ class getMenu(Resource):
 
         menu = data[menu_id]
         return make_response(
-            render_menu_as_html(menu), 200)
+            render_menu_as_html(menu, menu_id), 200)
     def delete(self, menu_id):
         error_if_menu_not_found(menu_id)
         menu = data[menu_id]
         del data[menu_id]
         return make_response(
-            render_dish_as_html(menu), 204)
+            render_dish_as_html(menu, menu_id), 204)
 
 
 class menuList(Resource):
