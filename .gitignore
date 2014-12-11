@@ -1,2 +1,7 @@
 .ropeproject/
 .idea/
+.Python
+bin/
+include/
+lib/
+local/
