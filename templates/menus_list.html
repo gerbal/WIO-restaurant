@@ -1,6 +1,6 @@
 <html>
 <body prefix="bbc: http://purl.org/ontology/fo/"
-      typeof="BBC:Collection" >
+      about="{{ url_for('menulist') }}">
 
 <a href="http://www.w3.org/2012/pyRdfa/extract?uri=referer">
 view data extracted from RDFa markup</a>
@@ -11,7 +11,8 @@ view data extracted from RDFa markup</a>
 <ul>
     {%  for item in menus %}
 
-    <li class="menu" resource="{{ url_for("getmenu", menu_id=menus[item].menu,  _external=True) }}" property="bbc:Menu" typeof="bbc:Menu">
+    <li {% if loop.first %}property="rdf:first"{% else %}inlist property="rdf:rest"{% endif %}
+        class="menu" resource="{{ url_for("getmenu", menu_id=menus[item].menu,  _external=True) }}" typeof="bbc:Menu">
         <span property="dcterms:title"><a href="{{ url_for("getmenu", menu_id=item) }}" > {{ menus[item].menu }}</a></span>
         <div property="dcterms:description">{{ menus[item].description }}</div>
     </li>
