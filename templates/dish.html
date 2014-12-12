@@ -14,12 +14,17 @@ view data extracted from RDFa markup</a><br>
 
 
  Ingredients:<br>
-    <ul>
+    <ul property="bbc:ingredients" typeof="bbc:IngredientList">
       {% for ingredient in dish.ingredient_list %}
-      <li property="bbc:ingredients"
+      <li property="rdf:_{{ loop.index }}"
            typeof="bbc:Ingredient">
-        <p property="dcterms:title bbc:food">{{ dish.ingredient_list[ingredient]['ingredient'] }}</p>
+        <p property="bbc:food" typeof="bbc:Food"><span property="dcterms:title">{{ dish.ingredient_list[ingredient]['ingredient'] }}</span></p>
         <span property="dcterms:description" >{{ dish.ingredient_list[ingredient]['ingredient_description'] }}</span>
+        <ul>
+        {% for link in dish.ingredient_list[ingredient]['links'] %}
+            <li><a href="{{ link.href }}">{{ link.text }}</a></li>
+        {% endfor %}
+        </ul>
       </li>
 	      {% endfor %}
 
