@@ -142,8 +142,13 @@ class getMenu(Resource):
 
 class menuList(Resource):
     def get(self):
+        filtered_data = data
+        if 'q' in request.args:
+          q = request.args['q']
+          filtered_data = dict([(k,v) for k,v in data.items()
+                               if q.lower() in v['description'].lower()])
         return make_response(
-            render_menu_list_as_html(data),  200)
+            render_menu_list_as_html(filtered_data),  200)
 
     def post(self):
         update = new_menu_parser.parse_args()
