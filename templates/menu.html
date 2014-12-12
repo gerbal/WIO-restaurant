@@ -52,7 +52,8 @@ view data extracted from RDFa markup</a>
       var request = new XMLHttpRequest();
       request.open('DELETE', window.location.pathname);
       request.send(new FormData(delForm));
-        location.reload();
+      request.onreadystatechange = function(){
+        location.reload();}
 {#        console.log(new FormData(remForm))#}
     }, false);
 </script>

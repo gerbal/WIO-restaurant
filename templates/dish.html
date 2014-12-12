@@ -58,7 +58,8 @@ view data extracted from RDFa markup</a><br>
       request.open('PATCH', window.location.pathname);
       request.send(new FormData(addForm));
 {#        console.log(new FormData(addForm))#}
-        location.reload();
+        request.onreadystatechange = function(){
+        location.reload();}
     }, false);
 
     var remForm = document.querySelector('form.remove-ingredient');
@@ -69,7 +70,8 @@ view data extracted from RDFa markup</a><br>
       var request = new XMLHttpRequest();
       request.open('PATCH', window.location.pathname);
       request.send(new FormData(remForm));
-        location.reload();
+       request.onreadystatechange = function(){
+        location.reload();}
 {#        console.log(new FormData(remForm))#}
     }, false);
 
@@ -81,7 +83,8 @@ view data extracted from RDFa markup</a><br>
       var request = new XMLHttpRequest();
       request.open('DELETE', window.location.pathname);
       request.send(new FormData(delForm));
-        location.reload();
+        request.onreadystatechange = function(){
+        location.reload();}
 {#        console.log(new FormData(remForm))#}
     }, false);
 
