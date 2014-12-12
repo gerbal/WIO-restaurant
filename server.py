@@ -5,6 +5,9 @@ import json
 import string
 import random
 from datetime import datetime
+import rdflib
+
+schema = rdflib.Namespace("http://schema.org/")
 
 # define our priority levels
 PRIORITIES = ( 'closed', 'low', 'normal', 'high' )
@@ -159,8 +162,17 @@ class menuList(Resource):
 class getDish(Resource):
     def get(self, menu_id, dish_id):
         error_if_dish_not_found(menu_id, dish_id)
-        return make_response(
-            render_dish_as_html(data[menu_id]['dishes'][dish_id])
+	dish = data[menu_id]['dishes'][dish_id]
+	ingredients = dish['ingredient_list'].values()
+	for i in ingredients:
+            graph = rdflib.Graph()
+	    graph.parse("http://aeshin.org:6789/produces?q={}".format(i['ingredient']))
+            i['links'] = []
+	    for s, o in graph.subject_objects(predicate=schema.name):
+	        i['links'].append({ 'text': str(o), 'href': str(s) })
+        print(dish)
+	return make_response(
+            render_dish_as_html(dish)
                 , 200)
     def patch(self, menu_id, dish_id):
         error_if_dish_not_found(menu_id, dish_id)
