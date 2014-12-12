@@ -18,7 +18,7 @@ view data extracted from RDFa markup</a><br>
       {% for ingredient in dish.ingredient_list %}
       <li property="rdf:_{{ loop.index }}"
            typeof="bbc:Ingredient">
-        <p property="dcterms:title bbc:food">{{ dish.ingredient_list[ingredient]['ingredient'] }}</p>
+        <p property="bbc:food" typeof="bbc:Food"><span property="dcterms:title">{{ dish.ingredient_list[ingredient]['ingredient'] }}</span></p>
         <span property="dcterms:description" >{{ dish.ingredient_list[ingredient]['ingredient_description'] }}</span>
       </li>
 	      {% endfor %}
